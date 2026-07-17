@@ -3,12 +3,11 @@
 #' @returns A tibble
 #' @export
 get_detailed_pods <- function() {
-  yaml_raw <- possibly_get_outputs_gh_file("golem-config.yml")
+  yaml_data <- possibly_read_pods_lookup()
   msg <- "Unable to read POD lookup file from GitHub"
-  azkit::check_that(yaml_raw, is_not_null, msg)
-  yaml_data <- yaml12::parse_yaml(readr::read_lines(yaml_raw))[["default"]]
+  azkit::check_that(yaml_data, is_not_null, msg)
   yaml_data |>
-    purrr::pluck("pod_measures") |>
+    purrr::pluck("default", "pod_measures") |>
     purrr::map(list_to_tbl) |>
     purrr::list_rbind() |>
     dplyr::mutate(
@@ -23,7 +22,7 @@ get_detailed_pods <- function() {
 #' Prepare a lookup table with activity type labels and PoD labels for each PoD
 #'
 #' This function condenses all A&E activity to a single category - compare
-#'  `get_detailed_pods()` which _keeps_ all A&E categories
+#'  [get_detailed_pods] which _keeps_ all A&E categories
 #' @rdname get_detailed_pods
 #' @returns A tibble
 #' @export

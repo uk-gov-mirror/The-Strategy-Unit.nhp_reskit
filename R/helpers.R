@@ -182,10 +182,9 @@ get_tretspef_lookup <- function() {
 #'  `change_factor` and `tpma_label`
 #' @export
 get_tpma_label_lookup <- function() {
-  csv_data_raw <- possibly_get_tpmas_gh_file("tpma-lookup.csv")
+  csv_data <- possibly_read_tpmas_lookup()
   msg <- "Unable to read TPMA lookup table from GitHub"
-  azkit::check_that(csv_data_raw, is_not_null, msg)
-  csv_data <- readr::read_csv(csv_data_raw, col_types = "-ccccc---c")
+  azkit::check_that(csv_data, is_not_null, msg)
   csv_data |>
     dplyr::filter(dplyr::if_any("active_to", is.na)) |>
     dplyr::select(!"active_to") |>

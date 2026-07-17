@@ -16,5 +16,5 @@ A tibble
 }
 \description{
 This function condenses all A&E activity to a single category - compare
-\code{get_detailed_pods()} which \emph{keeps} all A&E categories
+\link{get_detailed_pods} which \emph{keeps} all A&E categories
 }
